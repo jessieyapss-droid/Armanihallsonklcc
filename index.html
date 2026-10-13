@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Armani Hallson KLCC — Freehold, 300m from KLCC</title>
+<meta name="description" content="Freehold SOHO and SOVO suites on Jalan Ampang, linked to KLCC by a 300m covered walkway. 406 – 1,182 sq ft. Completion 2029. Book a private viewing.">
+<meta property="og:title" content="Armani Hallson KLCC — Freehold, 300m from KLCC">
+<meta property="og:description" content="Freehold SOHO and SOVO suites linked to KLCC by a covered walkway. 406 – 1,182 sq ft. Book a private viewing.">
+<meta property="og:image" content="images/sky-pool-klcc.jpg">
+<meta name="theme-color" content="#150A08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="images/hero.jpg">
+
+<script>
+try{ if(localStorage.getItem('theme')==='dark') document.documentElement.dataset.theme='dark'; }catch(e){}
+/* =====================================================================
+   EDIT HERE — everything you are likely to change lives in this block.
+   改这里就够了：你的名字、WhatsApp 号码。
+   ===================================================================== */
+const CONFIG = {
+  projectName: "Armani Hallson KLCC",
+  agentName:   "Your Name",              // 你的名字
+  agentTitle:  "Property Consultant",    // 职称 / REN 号码，例如 "REN 12345"
+  agency:      "",                       // 公司名称（可留空）
+  whatsapp:    "60123456789"             // WhatsApp 号码：国家码 + 号码，不要 + 号和空格
+};
+
+/* Unit types — from the developer's sales kit.
+   t = tower type, n = layout, s = sq ft, q = total units of this type, img = floor plan in /images */
+const UNITS = [
+  {t:"SOVO", n:"A",  s:776,  q:224, img:"plan-sovo-a"},
+  {t:"SOVO", n:"B",  s:406,  q:672, img:"plan-sovo-b"},
+  {t:"SOVO", n:"B1", s:438,  q:372, img:"plan-sovo-b1"},
+  {t:"SOVO", n:"C",  s:813,  q:112, img:"plan-sovo-c"},
+  {t:"SOVO", n:"D",  s:813,  q:36,  img:"plan-sovo-d"},
+  {t:"SOVO", n:"E",  s:1182, q:24,  img:"plan-sovo-e"},
+  {t:"SOHO", n:"A",  s:558,  q:456, img:"plan-soho-a"},
+  {t:"SOHO", n:"B",  s:538,  q:319, img:"plan-soho-b"}
+];
+const MAINT_PSF = 0.95; // RM per sq ft, inclusive of sinking fund
+
+/* Photo sets — files live in /images. Add or remove names freely. */
+const GALLERY = [
+  {id:"sky",    en:"Sky levels",  zh:"空中设施", sen:"SOVO Towers · Level 76 – 78", szh:"SOVO 大楼 · 76 – 78 楼",
+   imgs:["sky-pool-klcc","sky-heated-pool","sky-onsen","sky-cabana","sky-lounge","sky-gym","sky-deck","sky-rooftop"],
+   tags:[["Infinity Pool","无边际泳池"],["Imperial Onsen","温泉池"],["Elevated Heated Spa Pool","高空恒温水疗池"],["Hydro Spa","水疗池"],["Sunken Cabana","下沉式休闲区"],["Sauna","桑拿"],["Sky Gym","空中健身房"],["Sky Lounge","空中会客厅"],["Viewing Decks","观景台"]]},
+  {id:"garden", en:"Garden deck", zh:"空中花园", sen:"Level 10", szh:"10 楼",
+   imgs:["garden-view","garden-lagoon","garden-waterfall","garden-bbq","garden-broadwalk","garden-kids"],
+   tags:[["Tranquil Lagoon","静谧泻湖"],["Healing Waterfall","疗愈瀑布"],["Zen Garden","禅意花园"],["BBQ Lounge","烧烤区"],["Garden Broadwalk","花园步道"],["Serenity Pavilion","静心亭"],["Little Explorer's Zone","儿童探索区"],["Prayer Room","祈祷室"]]},
+  {id:"soho",   en:"SOHO Tower",  zh:"SOHO 大楼", sen:"Level 33, 67 & 68", szh:"33、67 及 68 楼",
+   imgs:["soho-pool","soho-gym","soho-terrace"],
+   tags:[["Sky Pool","空中泳池"],["Sun Deck","日光甲板"],["Jacuzzi","按摩池"],["Sauna","桑拿"],["Gymnasium","健身房"],["Open Terrace","露天平台"],["Viewing Terraces","观景平台"]]},
+  {id:"arrival",en:"Arrival",     zh:"迎宾大堂", sen:"Ground floor", szh:"底层",
+   imgs:["arrival-entrance","arrival-dropoff","arrival-atrium","arrival-lounge"],
+   tags:[["Drop-off","落客区"],["Grand Atrium","迎宾中庭"],["Hallson Lounge","Hallson 会客厅"],["Imperial Lounge","Imperial 会客厅"],["Postal Suite","信件室"]]}
+];
+</script>
+
+<style>
+:root{
+  --bg:#F6EFE7; --bg2:#EEE3D7; --card:#FFFCF8; --ink:#2A1A14; --dark:#150A08; --dark2:#231410;
+  --gold:#C8A574; --gold-l:#E4CBA3; --muted:#75655C; --line:#E0D2C3; --wa:#1FA855;
+  --field:#fff; --tag:#9A6E3C; --rare:#B0462F;
+  --serif:"Cormorant Garamond","Noto Serif SC",Georgia,serif;
+  --sans:"Manrope",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+/* Dark mode — toggled by the sun/moon button in the nav */
+:root[data-theme="dark"]{
+  --bg:#1E110D; --bg2:#25150F; --card:#2D1B15; --ink:#F4EAE0; --muted:#B9A698; --line:#432E25;
+  --field:#3A251D; --tag:var(--gold); --rare:#EC9477; color-scheme:dark;
+}
+:root[data-theme="dark"] .btn-dark{background:var(--gold);color:var(--dark)}
+:root[data-theme="dark"] .stack .f1{box-shadow:inset 0 0 0 1px var(--line)}
+:root[data-theme="dark"] .quiz{box-shadow:none}
+body,section,.why,.quiz,.opt,.unit,form,input,select,.dist div{transition:background-color .3s,color .3s,border-color .3s}
+.theme{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;color:#fff;flex:none}
+.theme:hover{background:rgba(255,255,255,.1)}
+.theme svg{width:17px;height:17px}
+.theme .sun{display:none}
+:root[data-theme="dark"] .theme .sun{display:block}
+:root[data-theme="dark"] .theme .moon{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px;overflow-x:hidden;padding-bottom:72px}
+@media(min-width:800px){body{padding-bottom:0}}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:clamp(2.6rem,8vw,5rem)}
+h2{font-size:clamp(2rem,5.4vw,3.4rem)}
+h3{font-size:1.6rem}
+.eyebrow{font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.lead{font-size:1.08rem;color:var(--muted);max-width:60ch}
+section{padding:84px 0}
+@media(min-width:800px){section{padding:120px 0}}
+.step{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.step b{font-family:var(--serif);font-size:1.5rem;color:var(--gold);font-weight:600}
+.step i{height:1px;width:44px;background:var(--gold);opacity:.6}
+.fine{font-size:.8rem;color:var(--muted);margin-top:18px}
+.dark{background:var(--dark);color:#fff}
+.dark .lead{color:rgba(255,255,255,.72)}
+.dark .fine{color:rgba(255,255,255,.5)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border-radius:999px;font-weight:700;font-size:.96rem;transition:transform .2s,box-shadow .2s,background .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn-gold{background:var(--gold);color:var(--dark);box-shadow:0 10px 30px -10px rgba(200,165,116,.8)}
+.btn-gold:hover{background:var(--gold-l)}
+.btn-ghost{border:1px solid rgba(255,255,255,.4);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+.btn-dark{background:var(--dark);color:#fff}
+.btn-wa{background:var(--wa);color:#fff;box-shadow:0 10px 30px -12px rgba(31,168,85,.9)}
+.btn svg{width:20px;height:20px;flex:none}
+
+/* Progress + nav */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:60}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,box-shadow .3s;color:#fff}
+nav.solid{background:rgba(21,10,8,.94);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(255,255,255,.08)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.brand{font-family:var(--serif);font-size:1.3rem;font-weight:600;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:480px){.brand{font-size:1.02rem}}
+.nav-r{display:flex;align-items:center;gap:10px;flex:none}
+.lang{display:flex;border:1px solid rgba(255,255,255,.3);border-radius:999px;overflow:hidden;font-size:.78rem;font-weight:700}
+.lang button{padding:7px 12px;color:rgba(255,255,255,.7)}
+.lang button.on{background:#fff;color:var(--dark)}
+nav .btn{padding:10px 18px;font-size:.84rem;display:none}
+@media(min-width:800px){nav .btn{display:inline-flex}}
+
+/* Hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;color:#fff;padding:120px 0 0;background:var(--dark);overflow:hidden}
+.hero-img{position:absolute;inset:0;background:url("images/hero.jpg") center top/cover no-repeat}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,10,8,.5) 0%,rgba(21,10,8,.25) 30%,rgba(21,10,8,.88) 68%,var(--dark) 100%)}
+@media(min-width:900px){
+  .hero-img{left:auto;width:60%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 40%);mask-image:linear-gradient(90deg,transparent,#000 40%)}
+  .hero::after{background:linear-gradient(180deg,rgba(21,10,8,.35) 0%,transparent 30%,rgba(21,10,8,.7) 82%,var(--dark) 100%)}
+}
+.hero .wrap{position:relative;z-index:1;width:100%}
+.hero h1{margin:18px 0 22px;max-width:13ch}
+.hero h1 em{font-style:italic;color:var(--gold-l)}
+.hero p.sub{font-size:1.08rem;max-width:50ch;color:rgba(255,255,255,.86)}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin:34px 0 56px}
+.hero .cta .btn{flex:1 1 220px;max-width:320px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid rgba(255,255,255,.18)}
+.stats div{padding:22px 0;border-bottom:1px solid rgba(255,255,255,.18)}
+.stats div:nth-child(odd){padding-right:16px}
+.stats strong{display:block;font-family:var(--serif);font-size:2.2rem;font-weight:600;line-height:1.1;color:var(--gold-l)}
+.stats strong small{font-size:.5em;margin-left:2px}
+.stats div>span{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+@media(min-width:800px){.stats{grid-template-columns:repeat(4,1fr)}.stats div{border-bottom:0;padding:30px 0}.stats strong{font-size:2.8rem}}
+
+/* 01 Address */
+.split{display:grid;gap:36px;margin-top:44px;align-items:center}
+@media(min-width:900px){.split{grid-template-columns:1fr 1fr;gap:64px}}
+.photo{border-radius:20px;overflow:hidden;cursor:zoom-in;background:var(--bg2)}
+.photo img{width:100%;height:100%;object-fit:cover}
+.why-grid{display:grid;gap:18px;margin-top:56px}
+@media(min-width:800px){.why-grid{grid-template-columns:repeat(3,1fr);gap:24px}}
+.why{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px 28px}
+.why .n{font-family:var(--serif);font-size:3.2rem;line-height:1;color:var(--gold);margin-bottom:18px}
+.why h3{margin-bottom:10px}
+.why p{color:var(--muted)}
+.dist{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:24px}
+@media(min-width:800px){.dist{grid-template-columns:repeat(4,1fr)}}
+.dist div{background:var(--card);padding:22px 20px}
+.dist b{display:block;font-family:var(--serif);font-size:1.9rem;font-weight:600;line-height:1.1}
+.dist span{font-size:.86rem;color:var(--muted)}
+.maplink{display:inline-block;margin-top:22px;font-weight:700;border-bottom:1px solid var(--gold);padding-bottom:2px}
+.pull{margin-top:56px;padding:36px 28px;border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(200,165,116,.14),transparent);font-family:var(--serif);font-size:clamp(1.4rem,3.6vw,2rem);line-height:1.3}
+
+/* 02 Life gallery */
+.tabs{display:flex;gap:8px;overflow-x:auto;margin:40px 0 8px;padding-bottom:6px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;padding:11px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.22);font-weight:600;font-size:.9rem;color:rgba(255,255,255,.8)}
+.tab.on{background:var(--gold);border-color:var(--gold);color:var(--dark)}
+.tabsub{color:var(--gold-l);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin:14px 0 18px}
+.reel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 20px 14px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.3) transparent}
+@media(min-width:1160px){.reel{padding-left:calc((100vw - 1120px)/2 + 20px);padding-right:calc((100vw - 1120px)/2 + 20px)}}
+.reel img{height:min(60vw,460px);aspect-ratio:1875/1326;width:auto;max-width:none;border-radius:16px;scroll-snap-align:center;flex:none;object-fit:cover;cursor:zoom-in;background:var(--dark2)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.tags span{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.07);font-size:.84rem;color:rgba(255,255,255,.85)}
+
+/* Quiz */
+.quiz{margin-top:44px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px 22px;max-width:760px;box-shadow:0 30px 60px -40px rgba(42,26,20,.5)}
+@media(min-width:800px){.quiz{padding:44px}}
+.dots{display:flex;gap:8px;margin-bottom:26px}
+.dots i{height:4px;flex:1;border-radius:4px;background:var(--line);transition:background .3s}
+.dots i.on{background:var(--gold)}
+.quiz h3{font-size:1.75rem;margin-bottom:22px}
+.opts{display:grid;gap:12px}
+.opt{text-align:left;padding:18px 20px;border-radius:14px;border:1px solid var(--line);background:var(--field);transition:.2s;display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:600}
+.opt small{display:block;font-weight:400;color:var(--muted);font-size:.86rem;margin-top:2px}
+.opt:hover{border-color:var(--gold);background:rgba(200,165,116,.12)}
+.opt::after{content:"→";color:var(--gold);font-size:1.2rem}
+.match{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px}
+.match span{padding:10px 16px;border-radius:12px;background:rgba(200,165,116,.16);border:1px solid var(--gold);font-weight:700}
+.match span small{font-weight:400;color:var(--muted);margin-left:6px}
+.quiz .note{color:var(--muted);margin:14px 0 24px}
+.quiz .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.quiz .row .btn-ghost{border-color:var(--ink);color:var(--ink)}
+.quiz .again{color:var(--muted);text-decoration:underline;font-size:.9rem;padding:8px}
+
+/* Units */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:36px 0 24px}
+.chip{padding:10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.22);font-weight:600;font-size:.9rem;color:rgba(255,255,255,.8)}
+.chip.on{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+.units{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:700px){.units{grid-template-columns:repeat(3,1fr);gap:18px}}
+@media(min-width:1000px){.units{grid-template-columns:repeat(4,1fr)}}
+.unit{background:var(--card);color:var(--ink);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s;cursor:pointer}
+.unit:hover{transform:translateY(-4px)}
+.unit .plan{aspect-ratio:1/1;background:#F0E4D8;overflow:hidden}
+.unit .plan img{width:100%;height:100%;object-fit:cover;object-position:78% 50%;transform:scale(1.25)}
+.unit .body{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1}
+.unit .t{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--tag);font-weight:700;display:flex;justify-content:space-between;gap:8px}
+.unit .t em{font-style:normal;color:var(--rare);letter-spacing:.04em}
+.unit .s{font-family:var(--serif);font-size:2rem;font-weight:600;line-height:1.1;margin:6px 0 8px}
+.unit .s small{font-family:var(--sans);font-size:.78rem;font-weight:500;color:var(--muted);margin-left:4px}
+.unit .m{font-size:.78rem;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.unit .m b{color:var(--ink)}
+.unit button{margin-top:auto;padding:11px 10px;border-radius:999px;border:1px solid var(--ink);font-weight:700;font-size:.82rem;transition:.2s}
+.unit:hover button{background:var(--ink);color:var(--card)}
+
+/* Facts */
+.two{display:grid;gap:44px;margin-top:48px}
+@media(min-width:900px){.two{grid-template-columns:5fr 6fr;gap:72px;align-items:start}}
+.stack{display:flex;flex-direction:column;gap:6px}
+.stack div{border-radius:10px;padding:16px 20px;display:flex;justify-content:space-between;gap:16px;align-items:center;font-size:.92rem}
+.stack b{font-weight:700;white-space:nowrap}
+.stack .f1{background:var(--dark);color:#fff;min-height:220px;align-items:flex-start;padding-top:22px}
+.stack .f1 span{color:var(--gold-l);text-align:right}
+.stack .f2{background:#CDBDAC;color:#2A1A14;min-height:96px}
+.stack .f3{background:var(--gold);color:var(--dark)}
+.stack span{text-align:right}
+.facts{width:100%;border-collapse:collapse}
+.facts tr{border-bottom:1px solid var(--line)}
+.facts th{text-align:left;font-family:var(--serif);font-size:1.15rem;font-weight:600;padding:16px 16px 16px 0;vertical-align:top;width:40%}
+.facts td{padding:16px 0;color:var(--muted);vertical-align:top}
+
+/* Viewing */
+.flow{display:grid;gap:0;margin-top:48px;counter-reset:f}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr);gap:28px}}
+.flow div{position:relative;padding:28px 0 28px 64px;border-top:1px solid rgba(255,255,255,.14)}
+@media(min-width:800px){.flow div{padding:76px 0 0;border-top:1px solid rgba(255,255,255,.2)}}
+.flow div::before{counter-increment:f;content:counter(f);position:absolute;left:0;top:26px;width:44px;height:44px;border-radius:50%;border:1px solid var(--gold);color:var(--gold-l);display:grid;place-items:center;font-family:var(--serif);font-size:1.3rem}
+@media(min-width:800px){.flow div::before{top:20px}}
+.flow h3{font-size:1.4rem;margin-bottom:6px}
+.flow p{color:rgba(255,255,255,.7);font-size:.95rem}
+.get{margin-top:52px;display:grid;gap:12px}
+@media(min-width:700px){.get{grid-template-columns:repeat(2,1fr)}}
+.get li{list-style:none;padding:16px 18px 16px 48px;border-radius:14px;background:rgba(255,255,255,.06);position:relative}
+.get li::before{content:"✓";position:absolute;left:18px;color:var(--gold-l);font-weight:700}
+
+/* FAQ */
+.faq{max-width:800px;margin-top:40px}
+details{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;font-family:var(--serif);font-size:1.3rem;font-weight:600;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:4px;top:18px;font-size:1.6rem;color:var(--gold);transition:transform .2s;font-family:var(--sans);font-weight:400}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 0 24px;color:var(--muted);max-width:64ch}
+
+/* Book */
+.book{position:relative;color:#fff;background:var(--dark)}
+.book::before{content:"";position:absolute;inset:0;background:url("images/sky-pool-klcc.jpg") center/cover;opacity:.28}
+.book::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--dark) 0%,transparent 40%,var(--dark) 100%)}
+.book .wrap{position:relative;z-index:1}
+.book .two{align-items:center}
+.book h2 em{font-style:italic;color:var(--gold-l)}
+.book .lead{color:rgba(255,255,255,.78)}
+.agent{display:flex;align-items:center;gap:14px;margin-top:32px}
+.agent .av{width:54px;height:54px;border-radius:50%;background:var(--gold);color:var(--dark);display:grid;place-items:center;font-family:var(--serif);font-size:1.5rem;font-weight:600;flex:none}
+.agent small{display:block;color:rgba(255,255,255,.65)}
+form{background:var(--bg);color:var(--ink);border-radius:24px;padding:28px 22px;display:grid;gap:16px}
+@media(min-width:800px){form{padding:40px}}
+form h3{font-size:1.7rem}
+label{display:grid;gap:6px;font-size:.82rem;font-weight:700;letter-spacing:.04em}
+input,select{font:inherit;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--ink);width:100%;min-width:0}
+input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.f2c{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form .btn{width:100%}
+form .fine{margin:0;text-align:center}
+
+footer{background:#0C0504;color:rgba(255,255,255,.55);font-size:.78rem;padding:40px 0 48px}
+footer p{max-width:92ch}
+footer p+p{margin-top:12px}
+
+/* Mobile sticky bar */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:55;display:flex;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:var(--bg);backdrop-filter:blur(10px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .35s}
+.sticky.show{transform:none}
+.sticky .btn{flex:1;padding:14px 10px;font-size:.9rem}
+@media(min-width:800px){.sticky{display:none}}
+
+/* Lightbox */
+#lb{position:fixed;inset:0;z-index:80;background:rgba(12,5,4,.94);display:none;flex-direction:column;align-items:center;justify-content:center;padding:56px 12px 20px;gap:16px}
+#lb.open{display:flex}
+#lb img{max-width:100%;max-height:calc(100svh - 190px);border-radius:10px;object-fit:contain}
+#lb .x{position:absolute;top:10px;right:14px;color:#fff;font-size:2rem;line-height:1;padding:8px 12px}
+#lb .cap{color:#fff;text-align:center;font-family:var(--serif);font-size:1.3rem}
+#lb .cap small{display:block;font-family:var(--sans);font-size:.82rem;color:rgba(255,255,255,.65)}
+#lb .act{display:none}
+#lb.plan .act{display:inline-flex}
+
+/* Reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav id="nav">
+  <div class="wrap">
+    <a href="#top" class="brand" data-cfg="projectName"></a>
+    <div class="nav-r">
+      <div class="lang"><button data-lang="en" class="on">EN</button><button data-lang="zh">中文</button></div>
+      <button class="theme" id="themeBtn" aria-label="Switch light / dark mode" title="Light / Dark">
+        <svg class="moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.500a8.500 8.500 0 1 0 11 11z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></svg>
+      </button>
+      <a href="#book" class="btn btn-gold" data-zh="预约看房">Book a Viewing</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO — the hook ============ -->
+<header class="hero" id="top">
+  <div class="hero-img" role="img" aria-label="Armani Hallson KLCC — artist's impression"></div>
+  <div class="wrap">
+    <div class="eyebrow" data-zh="永久地契 · JALAN AMPANG · 吉隆坡">Freehold · Jalan Ampang · Kuala Lumpur</div>
+    <h1 data-zh="离 KLCC<br>只有 300 米。<br><em>永久地契。</em>">300 metres from KLCC. <em>Freehold.</em></h1>
+    <p class="sub" data-zh="{project} — 坐落 Jalan Ampang 的永久地契 SOHO 与 SOVO 单位，有盖走道直通 KLCC。面积 406 至 1,182 平方尺，预计 2029 年完工。">{project} — freehold SOHO and SOVO suites on Jalan Ampang, linked to KLCC by a covered walkway. From 406 to 1,182 sq ft. Completion 2029.</p>
+    <div class="cta">
+      <a href="#quiz" class="btn btn-gold" data-zh="30 秒找到适合我的户型">Find my layout in 30 seconds</a>
+      <a href="#book" class="btn btn-ghost" data-zh="预约私人看房">Book a private viewing</a>
+    </div>
+    <div class="stats">
+      <div><strong data-zh="永久">Freehold</strong><span data-zh="地契">Land tenure</span></div>
+      <div><strong><span data-count="300">300</span><small>m</small></strong><span data-zh="有盖走道直通 KLCC">Covered walkway to KLCC</span></div>
+      <div><strong><span data-count="78">78</span></strong><span data-zh="层楼高">Storeys high</span></div>
+      <div><strong>2029</strong><span data-zh="预计完工">Expected completion</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 01 — desire: the address ============ -->
+<section id="why">
+  <div class="wrap">
+    <div class="step rv"><b>01</b><i></i><span class="eyebrow" data-zh="为什么是这里">Why this address</span></div>
+    <h2 class="rv" data-zh="房子可以再盖。<br>KLCC，只有一个。">You can always build another tower. There is only one KLCC.</h2>
+
+    <div class="split">
+      <div class="photo rv" data-lb="link-bridge"><img loading="lazy" src="images/link-bridge.jpg" alt="Armani Hallson – KLCC covered link, artist's impression"></div>
+      <div class="rv">
+        <p class="lead" data-zh="装修会旧，设施会被超越。唯一不会变的，是你脚下那块地在哪里、属于谁。{project} 的答案很简单：永久地契，一条有盖走道，300 米走到 KLCC。">Finishes date. Facilities get outdone. What never changes is where the land is and who it belongs to. Here the answer is short: freehold, and a covered walkway that puts KLCC 300 metres from your lobby.</p>
+        <p class="lead" style="margin-top:16px" data-zh="下雨也好，烈日也好，走过去就是双峰塔、Suria KLCC 和 KLCC 公园。">Rain or midday sun, you simply walk — to the Twin Towers, Suria KLCC and the park.</p>
+        <p class="fine" data-zh="* 有盖连接走道的最终设计须经有关当局批准。图片为艺术构想图。">* Final design of the covered link is subject to authorities' approval. Image is an artist's impression.</p>
+      </div>
+    </div>
+
+    <div class="why-grid">
+      <div class="why rv"><div class="n">i.</div>
+        <h3 data-zh="地是谁的？">Whose land is it?</h3>
+        <p data-zh="永久地契。没有倒数的年期，没有到期续约的烦恼。今天买下，可以一代一代传下去。">Freehold. No lease counting down, no renewal to worry about. What you buy today, you can hand to the next generation.</p></div>
+      <div class="why rv"><div class="n">ii.</div>
+        <h3 data-zh="出门是哪里？">What's outside the door?</h3>
+        <p data-zh="吉隆坡中央商务区。Jalan Ampang、Jalan P. Ramlee 和 AKLEH 大道就在旁边，步行可达 Bukit Nanas 单轨列车站。">Kuala Lumpur's central business district. Jalan Ampang, Jalan P. Ramlee and AKLEH are moments away, and Bukit Nanas Monorail Station is within walking distance.</p></div>
+      <div class="why rv"><div class="n">iii.</div>
+        <h3 data-zh="回家是什么感觉？">What do you come home to?</h3>
+        <p data-zh="76 楼的无边际泳池与温泉，77 楼的空中健身房和会客厅，78 楼的观景台 — 窗外就是双峰塔。">An infinity pool and onsen on level 76, a sky gym and lounge on 77, viewing decks on 78 — with the Twin Towers filling the window.</p></div>
+    </div>
+
+    <div class="dist rv">
+      <div><b>0.4 km</b><span>Suria KLCC</span></div>
+      <div><b>2.3 km</b><span>Pavilion KL</span></div>
+      <div><b>2.5 km</b><span data-zh="Jalan Alor 美食街">Jalan Alor Food Street</span></div>
+      <div><b>3.0 km</b><span>The Exchange TRX</span></div>
+    </div>
+    <a href="#" class="maplink rv" data-lb="map" data-zh="查看完整位置图 →">See the full location map →</a>
+
+    <div class="pull rv" data-zh="问题从来不是「KLCC 旁边的永久地契值不值得拥有」，<br>而是「哪一间，会是你的」。">The question was never whether freehold beside KLCC is worth owning. It's which one will be yours.</div>
+  </div>
+</section>
+
+<!-- ============ 02 — desire: the life ============ -->
+<section class="dark" id="life" style="padding-bottom:84px">
+  <div class="wrap">
+    <div class="step rv"><b>02</b><i></i><span class="eyebrow" data-zh="这里的生活">The life here</span></div>
+    <h2 class="rv" data-zh="下班之后，<br>你的夜晚在 76 楼。">After work, your evening is on the 76th floor.</h2>
+    <p class="lead rv" style="margin-top:20px" data-zh="泡在温泉里看双峰塔亮灯。这不是酒店，是你每天回的家。左右滑动看看。">Sitting in the onsen as the Twin Towers light up. Not a hotel — the place you come back to every day. Swipe through.</p>
+    <div class="tabs rv" id="tabs"></div>
+    <div class="tabsub" id="tabsub"></div>
+  </div>
+  <div class="reel" id="reel"></div>
+  <div class="wrap">
+    <div class="tags" id="tags"></div>
+    <p class="fine" data-zh="所有图片均为艺术构想图，仅供参考。设施按大楼划分，详情以发展商资料为准。">All images are artist's impressions, for illustration only. Facilities are tower-specific; refer to the developer's documents for details.</p>
+  </div>
+</section>
+
+<!-- ============ 03 — micro-commitment: quiz ============ -->
+<section id="quiz" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="step rv"><b>03</b><i></i><span class="eyebrow" data-zh="找到你的户型">Find your fit</span></div>
+    <h2 class="rv" data-zh="三个问题，<br>找出属于你的那一间。">Three questions to the layout that's yours.</h2>
+    <p class="lead rv" style="margin-top:20px" data-zh="不用填资料，不用留电话。回答完马上看到结果。">No sign-up, no phone number. Answer and see your match straight away.</p>
+    <div class="quiz rv" id="quizBox"></div>
+  </div>
+</section>
+
+<!-- ============ 04 — consideration: all layouts ============ -->
+<section class="dark" id="layouts">
+  <div class="wrap">
+    <div class="step rv"><b>04</b><i></i><span class="eyebrow" data-zh="全部户型">All layouts</span></div>
+    <h2 class="rv" data-zh="8 种户型，一目了然。">All 8 layouts, side by side.</h2>
+    <p class="lead rv" style="margin-top:20px" data-zh="点开任何一个户型就能看平面图。每个户型都标明总共有多少间，以及预估每月管理费。">Tap any layout to open its floor plan. Each one shows how many exist in the whole development, and its estimated monthly maintenance.</p>
+    <div class="chips rv" id="chips"></div>
+    <div class="units" id="units"></div>
+    <p class="fine" data-zh="* 预估管理费以每平方尺 RM0.95（已含储备金）计算，仅供参考。">* Estimated maintenance is calculated at RM0.95 psf (inclusive of sinking fund) and is indicative only.</p>
+  </div>
+</section>
+
+<!-- ============ 05 — trust: the facts ============ -->
+<section id="facts">
+  <div class="wrap">
+    <div class="step rv"><b>05</b><i></i><span class="eyebrow" data-zh="项目资料">The facts</span></div>
+    <h2 class="rv" data-zh="白纸黑字，清清楚楚。">Everything, in black and white.</h2>
+    <div class="two">
+      <div class="rv">
+        <div class="stack">
+          <div class="f1"><b data-zh="10 楼及以上">Level 10 &amp; above</b><span data-zh="SOHO / SOVO 单位<br>设施 · 9 个零售店铺">SOHO / SOVO units<br>Facilities · 9 retail lots</span></div>
+          <div class="f2"><b data-zh="1 至 9 楼">Level 1 – 9</b><span data-zh="停车场">Car park</span></div>
+          <div class="f3"><b data-zh="底层">Ground floor</b><span data-zh="主大堂 · 3 个零售店铺">Main Lobby · 3 retail lots</span></div>
+        </div>
+        <p class="fine" data-zh="所有单位都从 10 楼开始。">Every unit starts from level 10.</p>
+      </div>
+      <table class="facts rv">
+        <tr><th data-zh="发展商">Developer</th><td>Armani Hallson KLCC Sdn Bhd</td></tr>
+        <tr><th data-zh="地点">Location</th><td>Jalan Ampang, Kuala Lumpur</td></tr>
+        <tr><th data-zh="地契">Land tenure</th><td data-zh="永久地契">Freehold</td></tr>
+        <tr><th data-zh="土地面积">Land size</th><td data-zh="2.6 英亩">2.6 acres</td></tr>
+        <tr><th data-zh="大楼">Towers</th><td data-zh="1 栋 SOHO + 2 栋 SOVO">1 SOHO Tower + 2 SOVO Towers</td></tr>
+        <tr><th data-zh="总单位">Total units</th><td data-zh="2,215 个单位<br>SOHO：775 个 · 69 层<br>SOVO：1,440 个 · 78 层">2,215 units<br>SOHO: 775 units · 69 floors<br>SOVO: 1,440 units · 78 floors</td></tr>
+        <tr><th data-zh="停车位">Car park</th><td data-zh="1,189 个停车位">1,189 parking lots</td></tr>
+        <tr><th data-zh="户型">Layout types</th><td data-zh="8 种（SOVO 6 种，SOHO 2 种）<br>406 – 1,182 平方尺">8 types (SOVO: 6, SOHO: 2)<br>406 – 1,182 sq ft</td></tr>
+        <tr><th data-zh="完工日期">Completion</th><td data-zh="2029 年">Year 2029</td></tr>
+        <tr><th data-zh="管理费">Maintenance fee</th><td data-zh="每平方尺 RM0.95（已含储备金）">RM0.95 psf (inclusive of sinking fund)</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 — action: what the viewing is ============ -->
+<section class="dark" id="viewing">
+  <div class="wrap">
+    <div class="step rv"><b>06</b><i></i><span class="eyebrow" data-zh="私人看房">The private viewing</span></div>
+    <h2 class="rv" data-zh="网页只能告诉你一半。<br>另一半，要你亲自来看。">A web page can only tell you half. The other half you have to see.</h2>
+    <p class="lead rv" style="margin-top:20px" data-zh="价格、楼层、朝向、还剩哪些单位 — 这些每天都在变，也是最影响你决定的部分。一次一对一的看房，全部讲清楚。">Price, floor, facing, which units are still open — these change by the day, and they're what your decision actually turns on. One sitting, one-to-one, covers all of it.</p>
+
+    <div class="flow">
+      <div class="rv"><h3 data-zh="发个 WhatsApp">Send a WhatsApp</h3><p data-zh="选一个你方便的日期和时间，一分钟就能完成。">Pick a day and time that suits you. It takes a minute.</p></div>
+      <div class="rv"><h3 data-zh="我为你确认时段">I confirm your slot</h3><p data-zh="我会亲自回复你，并先了解你的需求，提前为你准备好资料。">I reply personally, ask what you're looking for, and prepare the right material before you arrive.</p></div>
+      <div class="rv"><h3 data-zh="一对一看房">We sit down, one-to-one</h3><p data-zh="只为你一个人安排的时段，不赶时间，不用跟别人挤。">A session set aside just for you. Unhurried, no crowd.</p></div>
+    </div>
+
+    <ul class="get">
+      <li class="rv" data-zh="你心仪户型的完整平面图">Full floor plans for the layouts you shortlisted</li>
+      <li class="rv" data-zh="最新价格表与当前优惠配套">The current price list and package</li>
+      <li class="rv" data-zh="目前可选的楼层与朝向（KL 市景或设施景）">Which floors and facings are available right now — city view or facilities view</li>
+      <li class="rv" data-zh="按你的情况计算的贷款与月供">Loan and instalment figures worked out for your situation</li>
+    </ul>
+
+    <div class="pull rv" style="color:#fff" data-zh="2,215 个单位里，E 户型只有 24 间，D 户型只有 36 间。<br>选走了，就没有了。">Of 2,215 units, only 24 are Type E and only 36 are Type D. Once they're chosen, there are no more.</div>
+    <div style="margin-top:36px" class="rv"><a href="#book" class="btn btn-gold" data-zh="选一个看房时间">Choose my viewing time</a></div>
+  </div>
+</section>
+
+<!-- ============ 07 — objections ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="step rv"><b>07</b><i></i><span class="eyebrow" data-zh="常见问题">Before you ask</span></div>
+    <h2 class="rv" data-zh="你可能想问的。">What people ask first.</h2>
+    <div class="faq">
+      <details class="rv"><summary data-zh="价格是多少？">What's the price?</summary>
+        <p data-zh="价格会因户型、楼层和朝向而不同，优惠配套也会不时更新。WhatsApp 我，我会把你感兴趣户型的最新价格直接发给你。">It depends on layout, floor and facing, and packages are updated from time to time. WhatsApp me and I'll send you the current figure for the layouts you're interested in.</p></details>
+      <details class="rv"><summary data-zh="真的可以走路到 KLCC 吗？">Can I really walk to KLCC?</summary>
+        <p data-zh="可以。根据发展商资料，项目设有专属有盖走道连接 KLCC，距离约 300 米。连接走道的最终设计须经有关当局批准。">Yes. According to the developer, the project has an exclusive covered walkway connecting to KLCC, about 300 metres away. The final design of the link is subject to authorities' approval.</p></details>
+      <details class="rv"><summary data-zh="这是永久地契吗？">Is it really freehold?</summary>
+        <p data-zh="是的，土地为永久地契。">Yes. The land tenure is freehold.</p></details>
+      <details class="rv"><summary data-zh="什么时候完工？">When will it be completed?</summary>
+        <p data-zh="预计 2029 年完工。">Completion is expected in 2029.</p></details>
+      <details class="rv"><summary data-zh="每个月的管理费是多少？">How much is the monthly maintenance?</summary>
+        <p data-zh="每平方尺 RM0.95，已包含储备金。例如 406 平方尺的单位，每月大约 RM386。上面每个户型都已帮你算好。">RM0.95 psf, sinking fund included. A 406 sq ft unit works out to roughly RM386 a month. Every layout above has its figure worked out.</p></details>
+      <details class="rv"><summary data-zh="有停车位吗？">Does it come with parking?</summary>
+        <p data-zh="项目共有 1,189 个停车位，位于 1 至 9 楼。停车位的分配方式因户型而异，看房时我会针对你选的户型详细说明。">The development has 1,189 parking lots across levels 1 to 9. Allocation differs by unit type — I'll take you through exactly what applies to your layout at the viewing.</p></details>
+      <details class="rv"><summary data-zh="看房需要付费或下订吗？">Do I have to pay or commit to anything to view?</summary>
+        <p data-zh="不需要。看房完全免费，也没有任何购买义务。你只需要带着问题来。">No. The viewing is free and carries no obligation. Just bring your questions.</p></details>
+      <details class="rv"><summary data-zh="我人在外地 / 国外，可以吗？">I'm outstation or overseas. Can I still view?</summary>
+        <p data-zh="可以。WhatsApp 我，我们可以安排线上视讯讲解，把资料一并发给你。">Yes. WhatsApp me and we can arrange a video walkthrough, with the material sent to you directly.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 — conversion ============ -->
+<section class="book" id="book">
+  <div class="wrap">
+    <div class="two">
+      <div>
+        <div class="step rv"><b>08</b><i></i><span class="eyebrow" data-zh="预约看房">Book your viewing</span></div>
+        <h2 class="rv" data-zh="来亲眼看看，<br><em>哪一间是你的。</em>">Come and see <em>which one is yours.</em></h2>
+        <p class="lead rv" style="margin-top:20px" data-zh="选好日期和时间，按下按钮，WhatsApp 会自动帮你写好讯息。我会亲自回复确认。">Choose a day and time, tap the button, and WhatsApp opens with your message already written. I'll reply personally to confirm.</p>
+        <div class="agent rv">
+          <div class="av" id="avatar"></div>
+          <div><strong data-cfg="agentName"></strong><small id="agentSub"></small></div>
+        </div>
+      </div>
+      <form id="bookForm" class="rv">
+        <h3 data-zh="预约私人看房">Reserve a private viewing</h3>
+        <label><span data-zh="你的名字">Your name</span><input name="name" required autocomplete="name"></label>
+        <div class="f2c">
+          <label><span data-zh="日期">Preferred date</span><input type="date" name="date" required></label>
+          <label><span data-zh="时间">Time</span>
+            <select name="time">
+              <option data-zh="上午 (10am – 12pm)">Morning (10am – 12pm)</option>
+              <option data-zh="中午 (12pm – 3pm)">Afternoon (12pm – 3pm)</option>
+              <option data-zh="下午 (3pm – 6pm)">Late afternoon (3pm – 6pm)</option>
+              <option data-zh="傍晚 (6pm – 8pm)">Evening (6pm – 8pm)</option>
+            </select></label>
+        </div>
+        <label><span data-zh="感兴趣的户型">Layout you're interested in</span><select name="unit" id="unitSel"></select></label>
+        <button class="btn btn-wa" type="submit">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.200a8.200 8.200 0 0 1-4.200-1.200l-.3-.2-3 .8.8-2.900-.2-.3A8.200 8.200 0 1 1 12 20.200z"/></svg>
+          <span data-zh="用 WhatsApp 预约">Book via WhatsApp</span>
+        </button>
+        <p class="fine" data-zh="免费 · 无任何购买义务 · 你的资料只会通过 WhatsApp 发给我">Free · No obligation · Your details go only to me, via WhatsApp</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong style="color:#fff" data-cfg="projectName"></strong> · Jalan Ampang, Kuala Lumpur · <span data-zh="发展商">Developer</span>: Armani Hallson KLCC Sdn Bhd</p>
+    <p data-zh="免责声明：本页面由独立房地产顾问制作，仅供参考，不构成任何要约或合约的一部分。所有资料、图片、面积、设施及费用均以发展商的正式文件及买卖合约为准，如有更改，恕不另行通知。所有效果图均为艺术构想图。有盖连接走道的最终设计须经有关当局批准。">Disclaimer: This page is prepared by an independent property consultant for general reference only and does not form part of any offer or contract. All information, images, sizes, facilities and fees are subject to the developer's official documents and the sale and purchase agreement, and may change without notice. All renderings are artist's impressions. The final design of the covered link is subject to authorities' approval.</p>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky">
+  <a class="btn btn-wa" href="#" data-wa="general">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.200a8.200 8.200 0 0 1-4.200-1.200l-.3-.2-3 .8.8-2.900-.2-.3A8.200 8.200 0 1 1 12 20.200z"/></svg>
+    WhatsApp</a>
+  <a class="btn btn-dark" href="#book" data-zh="预约看房">Book a Viewing</a>
+</div>
+
+<div id="lb" role="dialog" aria-modal="true">
+  <button class="x" aria-label="Close">×</button>
+  <img alt="">
+  <div class="cap"></div>
+  <button class="btn btn-wa act"></button>
+</div>
+
+<script>
+(function(){
+  const $ = (s,r=document)=>r.querySelector(s), $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+  const P = CONFIG.projectName;
+  let lang = 'en';
+  const t = (en,zh)=> lang==='zh' ? zh : en;
+  const fmt = n => n.toLocaleString('en-US');
+  const maint = s => Math.round(s*MAINT_PSF);
+  const img = n => 'images/'+n+'.jpg';
+  const wa = msg => window.open('https://wa.me/'+CONFIG.whatsapp+'?text='+encodeURIComponent(msg),'_blank','noopener');
+  const uName = u => u.t+' '+t('Type ','户型 ')+u.n;
+  const uNameEn = u => u.t+' Type '+u.n;
+
+  /* --- config fill --- */
+  $$('[data-cfg]').forEach(e=>e.textContent = CONFIG[e.dataset.cfg]);
+  $('#avatar').textContent = (CONFIG.agentName||'?').trim().charAt(0).toUpperCase();
+  $('#agentSub').textContent = [CONFIG.agentTitle,CONFIG.agency].filter(Boolean).join(' · ');
+
+  /* --- language --- */
+  $$('[data-zh]').forEach(e=>{ e._en = e.innerHTML.replace(/\{project\}/g,P); e._zh = e.dataset.zh.replace(/\{project\}/g,P); e.innerHTML = e._en; });
+  function setLang(l){
+    lang = l; document.documentElement.lang = l==='zh'?'zh-Hans':'en';
+    $$('[data-zh]').forEach(e=>e.innerHTML = l==='zh'?e._zh:e._en);
+    $$('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.lang===l));
+    try{localStorage.setItem('lang',l)}catch(e){}
+    renderGallery(); renderChips(); renderUnits(); renderQuiz(); renderUnitSel();
+  }
+  $$('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+
+  /* --- light / dark mode --- */
+  $('#themeBtn').onclick = ()=>{
+    const r = document.documentElement, dark = r.dataset.theme !== 'dark';
+    if(dark) r.dataset.theme = 'dark'; else delete r.dataset.theme;
+    try{localStorage.setItem('theme', dark?'dark':'light')}catch(e){}
+  };
+
+  /* --- lightbox --- */
+  const lb = $('#lb'); let lbUnit = null;
+  function openLb(name, unit){
+    lbUnit = unit||null;
+    $('img',lb).src = img(name);
+    lb.classList.toggle('plan',!!unit);
+    $('.cap',lb).innerHTML = unit ? uName(unit)+' · '+fmt(unit.s)+' '+t('sq ft','平方尺')+'<small>'+t(fmt(unit.q)+' units in the development','全项目共 '+fmt(unit.q)+' 间')+' · '+t('est. maintenance RM','预估管理费 RM')+fmt(maint(unit.s))+t(' / month',' / 月')+'</small>' : '';
+    if(unit) $('.act',lb).textContent = t('Get the price for this layout','索取这个户型的价格');
+    lb.classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function closeLb(){ lb.classList.remove('open'); document.body.style.overflow=''; }
+  lb.onclick = e=>{ if(e.target===lb || e.target.classList.contains('x')) closeLb(); };
+  addEventListener('keydown',e=>{ if(e.key==='Escape') closeLb(); });
+  $('.act',lb).onclick = ()=>{ const u=lbUnit; wa(t(
+    'Hi '+CONFIG.agentName+', I\'m interested in '+P+'. Please send me the price and available units for '+uNameEn(u)+' ('+fmt(u.s)+' sq ft).',
+    '你好 '+CONFIG.agentName+'，我对 '+P+' 有兴趣。请发给我 '+uNameEn(u)+'（'+fmt(u.s)+' 平方尺）的价格和可选单位。')); };
+  $$('[data-lb]').forEach(e=>e.onclick=ev=>{ev.preventDefault();openLb(e.dataset.lb);});
+
+  /* --- gallery --- */
+  let gal = GALLERY[0].id;
+  function renderGallery(){
+    const g = GALLERY.find(x=>x.id===gal);
+    $('#tabs').innerHTML = GALLERY.map(x=>'<button class="tab'+(x.id===gal?' on':'')+'" data-g="'+x.id+'">'+t(x.en,x.zh)+'</button>').join('');
+    $$('#tabs .tab').forEach(b=>b.onclick=()=>{gal=b.dataset.g;renderGallery();$('#reel').scrollLeft=0;});
+    $('#tabsub').textContent = t(g.sen,g.szh);
+    $('#reel').innerHTML = g.imgs.map(n=>'<img loading="lazy" src="'+img(n)+'" data-n="'+n+'" alt="'+P+' — '+g.en+'">').join('');
+    $$('#reel img').forEach(i=>i.onclick=()=>openLb(i.dataset.n));
+    $('#tags').innerHTML = g.tags.map(x=>'<span>'+t(x[0],x[1])+'</span>').join('');
+  }
+
+  /* --- layouts --- */
+  const sorted = [...UNITS].sort((a,b)=>a.s-b.s);
+  const FILTERS = [
+    {id:'all',  en:'All 8', zh:'全部 8 种', f:()=>true},
+    {id:'SOVO', en:'SOVO',  zh:'SOVO',      f:u=>u.t==='SOVO'},
+    {id:'SOHO', en:'SOHO',  zh:'SOHO',      f:u=>u.t==='SOHO'}
+  ];
+  let flt = 'all';
+  function renderChips(){
+    $('#chips').innerHTML = FILTERS.map(b=>'<button class="chip'+(b.id===flt?' on':'')+'" data-b="'+b.id+'">'+t(b.en,b.zh)+'</button>').join('');
+    $$('#chips .chip').forEach(c=>c.onclick=()=>{flt=c.dataset.b;renderChips();renderUnits();});
+  }
+  function renderUnits(){
+    const f = FILTERS.find(b=>b.id===flt).f;
+    const list = sorted.filter(f);
+    $('#units').innerHTML = list.map((u,i)=>
+      '<div class="unit" data-i="'+i+'"><div class="plan"><img loading="lazy" src="'+img(u.img)+'" alt="'+uNameEn(u)+' floor plan"></div><div class="body">'+
+      '<div class="t"><span>'+uName(u)+'</span>'+(u.q<50?'<em>'+t('Only '+u.q,'仅 '+u.q+' 间')+'</em>':'')+'</div>'+
+      '<div class="s">'+fmt(u.s)+'<small>'+t('sq ft','平方尺')+'</small></div>'+
+      '<div class="m">'+t(fmt(u.q)+' units in total','全项目共 '+fmt(u.q)+' 间')+'<br>'+t('Est. maintenance','预估管理费')+' <b>RM'+fmt(maint(u.s))+'</b>'+t(' / mth*',' / 月*')+'</div>'+
+      '<button>'+t('View floor plan','看平面图')+'</button></div></div>').join('');
+    $$('#units .unit').forEach(c=>c.onclick=()=>{const u=list[+c.dataset.i];openLb(u.img,u);});
+  }
+  function renderUnitSel(){
+    const sel=$('#unitSel'), v=sel.value;
+    sel.innerHTML = '<option value="">'+t('Not sure yet — advise me','还不确定 — 请给我建议')+'</option>'+
+      sorted.map(u=>'<option value="'+uNameEn(u)+' ('+fmt(u.s)+' sq ft)">'+uName(u)+' — '+fmt(u.s)+' '+t('sq ft','平方尺')+'</option>').join('');
+    sel.value = v;
+  }
+
+  /* --- quiz --- */
+  const BAND = { s:u=>u.s<500, m:u=>u.s>=500&&u.s<800, l:u=>u.s>=800 };
+  const Q = [
+    {en:'What is this unit for?', zh:'这个单位，你打算怎么用？', o:[
+      {k:'own',  en:'For my own use',   zh:'自用',     sen:'My own base beside KLCC',      szh:'我自己在 KLCC 旁的据点'},
+      {k:'inv',  en:'As an investment', zh:'投资',     sen:'To rent out or hold',          szh:'出租或长期持有'},
+      {k:'both', en:'A bit of both',    zh:'两者都有', sen:'Use it now, keep options open', szh:'先自用，保留弹性'}]},
+    {en:'How much space do you need?', zh:'你需要多大的空间？', o:[
+      {k:'s', en:'Compact',  zh:'精致小户型', sen:'Under 500 sq ft',  szh:'500 平方尺以下'},
+      {k:'m', en:'Mid-size', zh:'中等户型',   sen:'500 – 800 sq ft',  szh:'500 – 800 平方尺'},
+      {k:'l', en:'Spacious', zh:'宽敞大户型', sen:'Above 800 sq ft',  szh:'800 平方尺以上'}]},
+    {en:'When would you like to move on this?', zh:'你打算什么时候行动？', o:[
+      {k:'now',  en:'As soon as I find the right one', zh:'找到合适的就决定', sen:'', szh:''},
+      {k:'soon', en:'Within the next few months',      zh:'未来几个月内',     sen:'', szh:''},
+      {k:'look', en:'Just exploring for now',          zh:'目前先了解看看',   sen:'', szh:''}]}
+  ];
+  let qi = 0, ans = [];
+  function renderQuiz(){
+    const box = $('#quizBox');
+    const dots = '<div class="dots">'+[0,1,2,3].map(i=>'<i class="'+(i<=qi?'on':'')+'"></i>').join('')+'</div>';
+    if(qi < Q.length){
+      const q = Q[qi];
+      box.innerHTML = dots+'<h3>'+t(q.en,q.zh)+'</h3><div class="opts">'+q.o.map((o,i)=>
+        '<button class="opt" data-i="'+i+'"><span>'+t(o.en,o.zh)+(o.sen?'<small>'+t(o.sen,o.szh)+'</small>':'')+'</span></button>').join('')+'</div>';
+      $$('.opt',box).forEach(b=>b.onclick=()=>{ans[qi]=Q[qi].o[+b.dataset.i];qi++;renderQuiz();});
+      return;
+    }
+    const m = sorted.filter(BAND[ans[1].k]);
+    const lo = m[0].s, hi = m[m.length-1].s;
+    const why = {
+      own: t('For your own use, the thing to settle next is floor and facing — KL city view or facilities view.','自用的话，下一步最重要的是楼层和朝向 — KL 市景还是设施景。'),
+      inv: t('For an investment, the numbers to look at next are entry price and holding cost — I\'ll lay both out for each of these layouts.','投资的话，下一步要看的是入场价和持有成本 — 我会把这几个户型的数字都列给你。'),
+      both:t('To keep both options open, the next step is comparing these layouts on price, floor and facing side by side.','想保留弹性的话，下一步是把这几个户型的价格、楼层和朝向放在一起比较。')
+    }[ans[0].k];
+    box.innerHTML = dots+'<div class="eyebrow">'+t('Your match','你的配对结果')+'</div>'+
+      '<h3 style="margin-top:10px">'+t(m.length+' layouts fit you','有 '+m.length+' 个户型适合你')+'</h3>'+
+      '<div class="match">'+m.map(u=>'<span>'+uName(u)+'<small>'+fmt(u.s)+' '+t('sq ft','平方尺')+'</small></span>').join('')+'</div>'+
+      '<p class="note">'+t('Estimated maintenance: RM'+fmt(maint(lo))+' – RM'+fmt(maint(hi))+' a month. ','预估管理费：每月 RM'+fmt(maint(lo))+' – RM'+fmt(maint(hi))+'。')+why+'</p>'+
+      '<div class="row"><button class="btn btn-wa" id="qSend">'+t('Send me these floor plans & prices','把这些平面图和价格发给我')+'</button>'+
+      '<a class="btn btn-ghost" href="#book">'+t('Book a viewing','预约看房')+'</a>'+
+      '<button class="again" id="qAgain">'+t('Start again','重新选择')+'</button></div>';
+    $('#qAgain').onclick=()=>{qi=0;ans=[];renderQuiz();};
+    $('#qSend').onclick=()=>{
+      const types = m.map(uNameEn).join(', ');
+      wa(t('Hi '+CONFIG.agentName+', I\'m interested in '+P+'.\n\nPurpose: '+ans[0].en+'\nSize: '+ans[1].en+' ('+ans[1].sen+')\nTimeline: '+ans[2].en+'\n\nPlease send me the floor plans and prices for '+types+'.',
+           '你好 '+CONFIG.agentName+'，我对 '+P+' 有兴趣。\n\n用途：'+ans[0].zh+'\n面积：'+ans[1].zh+'（'+ans[1].szh+'）\n时间：'+ans[2].zh+'\n\n请发给我 '+types+' 的平面图和价格。'));
+    };
+  }
+
+  /* --- booking form --- */
+  const form = $('#bookForm'), d = form.elements.date;
+  const iso = x => new Date(x.getTime()-x.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+  d.min = iso(new Date());
+  form.onsubmit = e=>{
+    e.preventDefault();
+    const f = form.elements, unit = f.unit.value;
+    const timeTxt = f.time.options[f.time.selectedIndex].text;
+    const dateTxt = new Date(f.date.value+'T00:00').toLocaleDateString(lang==='zh'?'zh-CN':'en-GB',{weekday:'long',day:'numeric',month:'long'});
+    wa(t('Hi '+CONFIG.agentName+', I\'d like to book a private viewing for '+P+'.\n\nName: '+f.name.value+'\nDate: '+dateTxt+'\nTime: '+timeTxt+'\nInterested in: '+(unit||'Not sure yet — please advise'),
+         '你好 '+CONFIG.agentName+'，我想预约 '+P+' 的私人看房。\n\n名字：'+f.name.value+'\n日期：'+dateTxt+'\n时间：'+timeTxt+'\n感兴趣的户型：'+(unit||'还不确定，请给我建议')));
+  };
+  $$('[data-wa]').forEach(a=>a.onclick=e=>{e.preventDefault();
+    wa(t('Hi '+CONFIG.agentName+', I\'m interested in '+P+'. Could you share more details?','你好 '+CONFIG.agentName+'，我对 '+P+' 有兴趣，可以给我更多资料吗？'));});
+
+  /* --- scroll effects --- */
+  const nav=$('#nav'), bar=$('#progress'), sticky=$('#sticky'), book=$('#book');
+  function onScroll(){
+    const y=scrollY, h=document.documentElement.scrollHeight-innerHeight;
+    nav.classList.toggle('solid',y>40);
+    bar.style.width=(h>0?y/h*100:0)+'%';
+    sticky.classList.toggle('show', y>innerHeight*.6 && book.getBoundingClientRect().top>innerHeight*.5);
+  }
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+  $$('.rv').forEach(e=>io.observe(e));
+
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches) $$('[data-count]').forEach(el=>{
+    const end=+el.dataset.count, t0=performance.now();
+    (function tick(now){ const p=Math.min((now-t0)/1400,1); el.textContent = fmt(Math.round(end*(1-Math.pow(1-p,3)))); if(p<1) requestAnimationFrame(tick); })(t0);
+  });
+
+  /* --- init --- */
+  let saved=null; try{saved=localStorage.getItem('lang')}catch(e){}
+  setLang(saved || ((navigator.language||'').toLowerCase().startsWith('zh')?'zh':'en'));
+})();
+</script>
+</body>
+</html>
